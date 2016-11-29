@@ -1,6 +1,6 @@
 # TD-KdTree
 
-## fonction buildTree
+## Fonction buildTree
 
 Je travaille sur le TD KdTree et je rencontre un problème quand à l'efficacité de mon programme KdTree.
 
