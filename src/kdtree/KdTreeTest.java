@@ -9,8 +9,8 @@ public class KdTreeTest {
 
 	ArrayList<Point2i> grid() {															
 		ArrayList<Point2i> v_tree_points = new ArrayList<Point2i>();
-		for(int i=0; i<10; ++i) {
-			for(int j=0; j<10; ++j) {
+		for(int i=0; i<100; ++i) {
+			for(int j=0; j<100; ++j) {
 				v_tree_points.add(new Point2i(10*i,10*j));
 			}
 		}
@@ -31,12 +31,12 @@ public class KdTreeTest {
 		
 		// Create a vector of query Point
 		ArrayList<Point2i> v_query_points = new ArrayList<Point2i>();		// points à tester
-		v_query_points.add(new Point2i(29,11));
-		//v_query_points.add(new Point2i(100,100));
-		/*v_query_points.add(new Point2i(200,200));
+		v_query_points.add(new Point2i(15,15));
+		v_query_points.add(new Point2i(100,100));
+		v_query_points.add(new Point2i(200,200));
 		v_query_points.add(new Point2i(25,150));
 		v_query_points.add(new Point2i(25,55));
-		v_query_points.add(new Point2i(33,25));*/
+		v_query_points.add(new Point2i(33,25));
 		
 		// Compare result of linear search with kdtree search
 
@@ -54,19 +54,19 @@ public class KdTreeTest {
 	        	}
 	        }
 			
-			System.out.println("linear_point=" + point);
+			/*System.out.println("linear_point=" + point);
 			System.out.println("x=" + point.get(0));
-			System.out.println("y=" + point.get(1));
+			System.out.println("y=" + point.get(1));*/
 			
 	        Point2i np = tree.getNN(p);
 	        float t_min = p.sqrDist(np);
 	       
-	        System.out.println("tree_point=" + np);
+	       /* System.out.println("tree_point=" + np);
 			System.out.println("x=" + np.get(0));
 			System.out.println("y=" + np.get(1));
 		    
-			System.out.println(t_min);
-			System.out.println(l_min);
+			System.out.println("t=" + t_min);
+			System.out.println("l=" + l_min);*/
 			
 			assertTrue(t_min==l_min);
 		   
