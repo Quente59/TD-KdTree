@@ -1,6 +1,6 @@
 # TD-KdTree
 
-## Fonction buildTree au 30/11/16
+## Fonction buildTree en cours de modification
 
 Mon code KdTree ne fonctionne actuellement que pour des arbres de dimension 2.  
 J'ai également écrit du code pour la gestion de la max_depth, mais celui-ci n'est ni vérifié, ni testé (il est pour l'instant en commentaire mais je pense que l'idée est bonne).  
