@@ -18,7 +18,7 @@ public class KdTreeTest {
 	}
 	
 	@Test
-	public void testNearestNeighbor() {
+	public void testNearestNeighbor2D() {
 
 		// Init vector of points
 
@@ -54,22 +54,10 @@ public class KdTreeTest {
 	        	}
 	        }
 			
-			/*System.out.println("linear_point=" + point);
-			System.out.println("x=" + point.get(0));
-			System.out.println("y=" + point.get(1));*/
-			
 	        Point2i np = tree.getNN(p);
 	        float t_min = p.sqrDist(np);
 	       
-	       /* System.out.println("tree_point=" + np);
-			System.out.println("x=" + np.get(0));
-			System.out.println("y=" + np.get(1));
-		    
-			System.out.println("t=" + t_min);
-			System.out.println("l=" + l_min);*/
-			
 			assertTrue(t_min==l_min);
-		   
 		}
 	}
 	
@@ -94,9 +82,6 @@ public class KdTreeTest {
 		assertFalse(tree.nb_points() !=5);
 		
 	}
-	
-	
-	
 	
 	@Test
 	public void testNearestNeighbor3D() {
@@ -181,12 +166,11 @@ public class KdTreeTest {
 		
 		KdTree<Point3i> tree = new KdTree<Point3i>(3, v_tree_points,0);		// arbre et ses points
 		
+		// avec la max_depth si dessus, on est certain que la racine contiendra le point barycentre des 4 points de v_tree_points
 		
-		Point3i point = (Point3i)tree.getPointRoot();
+		Point3i point = (Point3i)tree.getPointRoot(); // récupération du point racine de tree
 		
-		
-		Point3i barycentreTree = new Point3i(point.get(0),point.get(1),point.get(2));
-		
+		Point3i barycentreTree = new Point3i(point.get(0),point.get(1),point.get(2));		// barycentre de l'arbre tree
 		
 		int baryx = 0;
 		int baryy = 0;
@@ -203,8 +187,9 @@ public class KdTreeTest {
 		baryy = baryy / v_tree_points.size();
 		baryz = baryz / v_tree_points.size();
 		
-		Point3i barycentreTheo = new Point3i(baryx,baryy,baryz);
+		Point3i barycentreTheo = new Point3i(baryx,baryy,baryz);		// barycentre theorique qu'on est sencé trouver
 		
+		// comparaison du barycentre theorique avec celui de l'arbre tree
 		assertTrue(barycentreTree.get(0) == barycentreTheo.get(0));
 		assertTrue(barycentreTree.get(1) == barycentreTheo.get(1));
 		assertTrue(barycentreTree.get(2) == barycentreTheo.get(2));
