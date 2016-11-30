@@ -1,9 +1,8 @@
 # TD-KdTree
 
-## Fonction buildTree en cours de modification
+## Fonction buildTree au 30/11/2016
 
-Mon code KdTree ne fonctionne actuellement que pour des arbres de dimension 2.  
-J'ai également écrit du code pour la gestion de la max_depth, mais celui-ci n'est ni vérifié, ni testé (il est pour l'instant en commentaire mais je pense que l'idée est bonne).  
+Mon code KdTree fonctionne actuellement pour les deux dimensions possibles (2 et 3).   
+J'ai également écrit du code pour la gestion de la max_depth, dont le fonctionnement est vérifié et testé.  
   
-Je continue de travailler sur le code pour qu'il gère davantage de dimension.  
-Je vais implémenter une première quantization d'image (simple).  
+Je vais essayer d'implémenter une première quantization d'image (simple).  
