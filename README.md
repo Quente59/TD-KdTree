@@ -1,6 +1,6 @@
-# TD-KdTree
+# TD-KdTree ---WORK BRANCH---
 
-## Code de quantization d'images au 30/11/2016
+## Code de quantization d'images au 30/11/2016 disponible sur la ---MASTER BRANCH---
 
 Mon code KdTree fonctionne actuellement pour les deux dimensions possibles (2 et 3).  
 J'ai également écrit du code fonctionnel pour la gestion de la max_depth.  
