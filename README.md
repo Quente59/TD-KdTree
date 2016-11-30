@@ -8,7 +8,13 @@ J'ai également écrit du code fonctionnel pour la gestion de la max_depth.
 J'ai implémenté dans la classe Main un code de quantization d'image utilisant des KdTree.  
 Celui-ci fonctionne et est capable de créer, à partir d'une image donnée, la même image mais en un nombre beaucoup plus faible de couleurs.    
    
-## Voici quelques images illustrant cette transformation (ici en 16 couleurs) :   
+## Voici un exemple illustrant cette transformation (ici en 2 couleurs) :    
+   
+![chat4](https://github.com/Quente59/TD-KdTree/blob/master/tests/chat4/chat4.jpg "chat4")  
+![ResColor_chat4](https://github.com/Quente59/TD-KdTree/blob/master/tests/chat4/ResColor.jpg "ResColor_chat4")  
+![PaletteColor_chat4](https://github.com/Quente59/TD-KdTree/blob/master/tests/chat4/PaletteColor.jpg "PaletteColor_chat4")    
+   
+## Voici d'autres images illustrant cette transformation (ici en 16 couleurs) :   
    
 Image originel / image transformée en 16 couleur / palette des 16 couleurs utilisées   
    
