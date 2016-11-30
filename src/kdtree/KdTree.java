@@ -47,6 +47,10 @@ public class KdTree<Point extends PointI>		// généricité contrainte
 	private int n_points_; /// number of points in the KdTree
 	
 	private KdNode root_; /// root node of the KdTree
+	
+	public Point getPointRoot(){
+		return this.root_.pos_;
+	}
 
     //////////////////
     /// Constructor///
@@ -66,17 +70,9 @@ public class KdTree<Point extends PointI>		// généricité contrainte
 	KdTree(int dim, ArrayList<Point> points, int max_depth) {
 		this.dim_ = dim;
 		
+		//balanced initialization
+		this.root_ = buildTree(this.dim_,points,0,max_depth);			
 		
-		if (this.dim_ == 2){
-			
-			this.root_ = buildTree(points,0,max_depth);			// ne marche pour le moment qu'avec dim_ == 2
-		}
-		
-		//TODO: replace by a balanced initialization
-		
-		else{
-			this.root_ = null;
-		}
 		
 	
 	}
@@ -97,7 +93,7 @@ public class KdTree<Point extends PointI>		// généricité contrainte
 	}*/
 	
 	
-	private KdNode buildTree(ArrayList<Point> points, int depth, int max_depth){			// ne marche pour le moment que pour dim_ = 2
+	private KdNode buildTree(int dim, ArrayList<Point> points, int depth, int max_depth){			// ne marche pour le moment que pour dim_ = 2
 		// TERMINAISON : 
 		// si points.size()==0 retourner null (sous-arbre vide)
 		
@@ -105,10 +101,11 @@ public class KdTree<Point extends PointI>		// généricité contrainte
 			return null;
 		}
 		
+		
 		// Calcul de la dimension de la coupe (il est possible de commencer par
 		// d=depth%3)
 		
-		int d = depth%2;
+		int d = depth%dim;
 		
 		/*System.out.println("depth=" + depth);
 		System.out.println("d=" + d);*/
@@ -117,26 +114,52 @@ public class KdTree<Point extends PointI>		// généricité contrainte
 		// TRAITEMENT SPECIAL pour le problème de la quantization
 		// if depth == max_depth créer un noeud feuille comportant le barycentre des points restant
 		
-		/*if(depth == max_depth){
+		if(depth == max_depth){				
 					
-			int baryx = 0;
-			int baryy = 0;
-			for(int i=0;i<points.size();i++){
-				baryx += points.get(i).get(0);
-				baryy += points.get(i).get(0);
+			if(dim == 2){
+			
+				int baryx = 0;
+				int baryy = 0;
+				for(int i=0;i<points.size();i++){
+					baryx += points.get(i).get(0);
+					baryy += points.get(i).get(1);
 				 
+				}
+			
+				baryx = baryx / points.size();
+				baryy = baryy / points.size();
+			
+				Point barycentre = (Point) new Point2i(baryx,baryy);		//fonctionnement non vérifié
+			
+				KdNode node = new KdNode(barycentre,d);
+				this.n_points_ += 1 ;
+				return node;
+				//return null;
 			}
+			if(dim == 3){
+				
+				int baryx = 0;
+				int baryy = 0;
+				int baryz = 0;
+				for(int i=0;i<points.size();i++){
+					baryx += points.get(i).get(0);
+					baryy += points.get(i).get(1);
+					baryz += points.get(i).get(2);
+				 
+				}
 			
-			baryx = baryx / points.size();
-			baryy = baryy / points.size();
-			
-			Point barycentre = (Point) new Point2i(baryx,baryy);
-			
-			KdNode node = new KdNode(barycentre,d);
-			this.n_points_ += 1 ;
-			return node;
-			//return null;
-		}*/
+				baryx = baryx / points.size();
+				baryy = baryy / points.size();
+				baryz = baryz / points.size();
+				
+				Point barycentre = (Point) new Point3i(baryx,baryy,baryz);		//fonctionnement non vérifié
+				
+				KdNode node = new KdNode(barycentre,d);
+				this.n_points_ += 1 ;
+				return node;
+				//return null;
+			}
+		}
 
 		// Trier le tableau de point en fonction de la dimension choisi
 		// (cela permet d’obtenir la médiane et son indice)
@@ -179,8 +202,8 @@ public class KdTree<Point extends PointI>		// généricité contrainte
 			left_points.add(pointsSorted.get(0));
 
 			// Créer récursivement deux sous arbres
-			KdNode left_child = buildTree(left_points,depth+1,max_depth);
-			KdNode right_child = buildTree(right_points,depth+1,max_depth);
+			KdNode left_child = buildTree(dim,left_points,depth+1,max_depth);
+			KdNode right_child = buildTree(dim,right_points,depth+1,max_depth);
 			//KdNode right_child = null;
 	 
 			// Créer le nouveau noeud de profondeur depth et le retourner
@@ -194,59 +217,56 @@ public class KdTree<Point extends PointI>		// généricité contrainte
 			
 			return node;
 			
+		}	
 			
+		if (pointsSorted.size() == 1){
 			
-		}else{
-			if (pointsSorted.size() == 1){
-			
-				// Créer récursivement deux sous arbres
-				KdNode left_child = buildTree(left_points,depth+1,max_depth);
-				KdNode right_child = buildTree(right_points,depth+1,max_depth);
-				//KdNode left_child = null;
-				//KdNode right_child = null;
+			// Créer récursivement deux sous arbres
+			KdNode left_child = buildTree(dim,left_points,depth+1,max_depth);
+			KdNode right_child = buildTree(dim,right_points,depth+1,max_depth);
+			//KdNode left_child = null;
+			//KdNode right_child = null;
 
-				// Créer le nouveau noeud de profondeur depth et le retourner
+			// Créer le nouveau noeud de profondeur depth et le retourner
+			KdNode node = new KdNode(pointsSorted.get(0),d,left_child,right_child);
 
-				KdNode node = new KdNode(pointsSorted.get(0),d,left_child,right_child);
+			this.n_points_ += 1 ;
+			/*System.out.println(node.pos_);
 
-				this.n_points_ += 1 ;
-				/*System.out.println(node.pos_);
+			System.out.println(node.pos_.get(d));
+			System.out.println("--------------------");*/
 
-				System.out.println(node.pos_.get(d));
-				System.out.println("--------------------");*/
-
-				return node;
-			}
-			else{
-		
-				int indiceMediane = pointsSorted.size()/2;
-				//System.out.println("m=" + indiceMediane);
-		
-				for(int i = 0;i<indiceMediane;i++){
-					left_points.add(pointsSorted.get(i));
-				}
-		
-				for(int i = indiceMediane+1;i<pointsSorted.size();i++){
-					right_points.add(pointsSorted.get(i));
-				}
-
-				// Créer récursivement deux sous arbres
-				KdNode left_child = buildTree(left_points,depth+1,max_depth);
-				KdNode right_child = buildTree(right_points,depth+1,max_depth);
-				//System.out.println("l=" + left_points);
-				//System.out.println("r=" + right_points);
-				// Créer le nouveau noeud de profondeur depth et le retourner
-		
-				KdNode node = new KdNode(pointsSorted.get(indiceMediane),d,left_child,right_child);
-		
-				this.n_points_ += 1 ;
-				/*System.out.println(node.pos_);
-				System.out.println(node.pos_.get(d));
-				System.out.println("--------------------");*/
-		
-				return node;
-			}
+			return node;
 		}
+					
+		int indiceMediane = pointsSorted.size()/2;
+		//System.out.println("m=" + indiceMediane);
+		
+		for(int i = 0;i<indiceMediane;i++){
+			left_points.add(pointsSorted.get(i));
+		}
+		
+		for(int i = indiceMediane+1;i<pointsSorted.size();i++){
+			right_points.add(pointsSorted.get(i));
+		}
+
+		// Créer récursivement deux sous arbres
+		KdNode left_child = buildTree(dim,left_points,depth+1,max_depth);
+		KdNode right_child = buildTree(dim,right_points,depth+1,max_depth);
+		//System.out.println("l=" + left_points);
+		//System.out.println("r=" + right_points);
+		// Créer le nouveau noeud de profondeur depth et le retourner
+		
+		KdNode node = new KdNode(pointsSorted.get(indiceMediane),d,left_child,right_child);
+		
+		this.n_points_ += 1 ;
+		/*System.out.println(node.pos_);
+		System.out.println(node.pos_.get(d));
+		System.out.println("--------------------");*/
+		
+		return node;
+			
+		
 	}
 	  
 	/////////////////
