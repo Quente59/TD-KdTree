@@ -1,4 +1,4 @@
-# TD-KdTree
+# Quantization-KdTree
 
 ## Code de quantization d'images au 30/11/2016
 
